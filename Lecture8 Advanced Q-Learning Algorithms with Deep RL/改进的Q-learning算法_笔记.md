@@ -1,4 +1,4 @@
-# Lecture8: Deep RL with Q-Functions
+# Lecture8: Advanced Q-Learning Algorithms with Deep RL
 
 **课程内容**
 
@@ -41,10 +41,10 @@
 
 如上图所示，广义的拟合Q函数迭代算法可以分为三个过程，process 1是使用目标网络收集数据，process 2是更新目标网络的权重，process 3是回归Q函数，更新Q函数的参数。
 
-- 对于**在线Q-learning算法**：buffer会立即清除，即数据集缓冲区里面每次只有一个数据，且process 1, 2, 3 都以同样的速度运行。
-- 对于**DQN**：process 1和3 以相同的速度运行，即每收集一个转移数据就执行一个梯度步，而process 2非常缓慢，而且缓冲区的容量大于1。
 - 对于经典的**拟合Q函数迭代算法**：process 3在 process 2的内层循环中，而process 2在 process 1的内层循环中。
 - 对于**改进的Q-learning算法**：process 3在 process 1的内层循环中，而process 1在 process 2的内层循环中。
+- 对于经典的**在线Q-learning算法**：buffer会立即清除，即数据集缓冲区里面每次只有一个数据，且process 1, 2, 3 都以同样的速度运行。
+- 对于**DQN**：buffer的容量大于1且不会清除历史数据，process 1和3 以相同的速度运行，即每收集一个mini-batch的转移数据就执行一个梯度步，而process 2非常缓慢。
 
 ## Deep Q-learning算法的问题
 
