@@ -19,25 +19,25 @@
 
 为了解决数据不相关、奖励会发生改变的问题，提出了Q-Learning with replay buffer and target networks：
 
-<center><img src="./pic/L8-1.png" width="80%"></center>
+<p align="center"><img src="./pic/L8-1.png" width="80%" align="center"/></p>
 
 ### DQN
 
 经典的Deep Q-learning算法--**DQN**，是上一节中改进的Q-Learning的一个特例，表示如下：
 
-<center><img src="./pic/L8-2.png" width="80%"></center>
+<p align="center"><img src="./pic/L8-2.png" width="80%" align="center"/></p>
 
-<center><img src="./pic/L8-3.png" width="75%"></center>
+<p align="center"><img src="./pic/L8-3.png" width="75%" align="center"/></p>
 
 ### 拟合Q函数迭代算法的通用表示
 
 如果将经典的拟合Q函数迭代算法用上一节中改进的Q-Learning的方式表示，有：
 
-<center><img src="./pic/L8-4.png" width="80%"></center>
+<p align="center"><img src="./pic/L8-4.png" width="80%" align="center"/></p>
 
 可以看出，它与改进的Q-Learning算法的区别只在于步骤1和步骤2的内外循环顺序，如果用更通用的方式表示以上所有拟合Q函数迭代算法，则可以得到广义的拟合Q函数迭代算法：
 
-<center><img src="./pic/L8-5.png" width="80%"></center>
+<p align="center"><img src="./pic/L8-5.png" width="80%" align="center"/></p>
 
 如上图所示，广义的拟合Q函数迭代算法可以分为三个过程，process 1是使用目标网络收集数据，process 2是更新目标网络的权重，process 3是回归Q函数，更新Q函数的参数。
 
@@ -54,7 +54,7 @@
 
 DQN的噪声主要是因为计算最优动作的网络与计算Q值的网络是同一个，如果将其解耦成两个网络，就可以大大降低Q值的噪声，一种最简单的方式是利用目标函数，将更新目标Q值的方程变为下图所示。
 
-<center><img src="./pic/L8-6.png" width="80%"></center>
+<p align="center"><img src="./pic/L8-6.png" width="80%" align="center"/></p>
 
 ### 多步回报 (multi-step returns)
 
@@ -76,7 +76,7 @@ $$\max_\mathbf{a}Q(\mathbf{s},\mathbf{a})\approx\max\{Q(\mathbf{s},\mathbf{a}_1)
 
 第二种方法是，我们选取一个比较容易优化的函数簇来拟合我们的Q函数。在此之前，我们都是使用通用的神经网络来拟合Q，但神经网络需要通过梯度下降的方式来优化，是非常困难的。如果设置Q函数是关于动作的二元函数，那优化起来就非常容易了，比如令$Q_\phi(\mathbf{s},\mathbf{a})=-\frac{1}{2}(\mathbf{a}-\mu_\phi(\mathbf{s}))^\top P_\phi(\mathbf{s})(\mathbf{a}-\mu_\phi(\mathbf{s}))+V_\phi(\mathbf{s})$，它的天然特性就是$\mu_\phi(\mathbf{s})=\arg\max_\mathbf{a}Q_\phi(\mathbf{s},\mathbf{a})$和$V_\phi(\mathbf{s})=\max_\mathbf{a}Q_\phi(\mathbf{s},\mathbf{a})$。我们可以通过训练一个神经网络或者其他结构，如下图所示，输入状态$\mathbf{s}$，输出$(\mu,P,V)$，其中$\mu$和$V$都是向量，$P$是矩阵（可以用如低秩形式表示），这样的方法称为NAF (Normalized Advantage Functions)。
 
-<center><img src="./pic/L8-7.png" width="80%"></center>
+<p align="center"><img src="./pic/L8-7.png" width="80%" align="center"/></p>
 
 这个方法很容易和高斯分布建立起联系；当然，这样的Q函数中行动是没有界限的。我们这么做的话，算法上不需要做任何改变，非常容易，而且和原来的Q学习一样高效。但是缺点就在于Q函数只能是固定的形式（如这里的二次函数），非常受限，Q函数的建模泛化能力将大大降低。
 
@@ -97,7 +97,7 @@ DDPG算法迭代执行以下步骤：
 
 ## Q-learning的一些实用建议
 
-<center><img src="./pic/L8-8.png" width="80%"></center>
+<p align="center"><img src="./pic/L8-8.png" width="80%" align="center"/></p>
 
 1. 上图显示了几个问题的几种不同Q学习的效果。发现对于不同的问题，Q学习在有些问题上很可靠，在有些问题上波动很大，需要花很多力气来让Q学习稳定下来。因此发现几个能让Q学习比较可靠的问题来试验程序，譬如Pong和Breakout。如果这些例子上表现不好，那就说明程序有问题。
 2. 回放缓冲池的大小越大，Q学习的稳定性越好。我们往往会用到上百万个回放样本，那么内存上怎么处理是决定性的。建议图像使用uint8 (1字节无符号整型) 存储，然后在存储$(\mathbf{s},\mathbf{a},\mathbf{s}',r)$的时候不要重复存储同样的数据。
